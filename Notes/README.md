@@ -65,7 +65,21 @@ aws dynamodb create-table \
   --region us-east-1
 ```
 
+## Just For Frontend Deployment
 
+- only manage infra code for frontend
+- create only terraform.yml workflow
+- make sure you add all required secrets inside repository
+- then make a push only infra and workflow
+- check output resource created.
+
+## Temporary Check
+
+- try to upload index.html manually to S3 bucket
+- check Couldfront DNS in browser you can see deployed Page
+
+
+## Create Backend files as shown 
 
 ## Create zip for Lambda
 
@@ -76,3 +90,77 @@ zip -r lambda.zip .
 cd ../generate-presigned-url
 zip -r lambda.zip .
 ```
+
+- Update Terraform code
+- Also create backend.yml for workflow
+- now just push backend, infra and workflow folders
+
+- Now you can see in Output of your workflow
+- presigned URL that you need to copy and update index.html
+
+![Presigned url](images/presigned.png)
+
+- now create frontend.yml
+- push your frontend and .github files
+- now you can see workflow executed for frontend
+- you can see index.html got sync with s3 bucket and its updated.
+
+- Now try to submit form but still it showing some CORS Erros.
+
+![Error](images/CORS.png)
+
+## Resolve CORS Error
+
+- Go to Backend S3 Bucket
+- Permission -> CORS -> Edit
+
+```json
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "PUT",
+            "POST",
+            "DELETE",
+            "GET",
+            "HEAD"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
+
+- save (check again)
+- if still showing the same error
+- means Image is not uploaded via lambda to S3 Bucket
+- for Upload we created Lambda , which triggers API
+- Open API - from AWS
+- selet presigned api -> select that POST method
+- left side below you can see protect -> throttling
+- edit -> select default -> 
+- bust limit: 100 (sudden spike)
+- rate limit: 200 (normal flow 200 req per second)
+- save and try to upload again
+
+## To Receive Email
+
+- when SNS topic generated you will get one email for scription
+- that you need to confirm to receive an email
+
+- check your email
+
+![Email for Subscription](images/email.png)
+
+![Subscription](images/subscription.png)
+
+- now you can try to submit screenshot again on cloudfront URL and you will receive an email
+
+![Email Notification](images/notification.png)
+
+- Once Uploaded Successfully
+- check email, cloudwatch Logs by clicking on Log Management, check s3 bucket uploads
