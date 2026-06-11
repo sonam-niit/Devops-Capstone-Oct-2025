@@ -164,3 +164,14 @@ zip -r lambda.zip .
 
 - Once Uploaded Successfully
 - check email, cloudwatch Logs by clicking on Log Management, check s3 bucket uploads
+
+## Delete Resources
+
+- edit terraform.yml workflow
+- comment terraform apply 
+- uncomment terraform destroy lines
+- push again
+- automatically all resources will be destroyed.
+
+- Make sure you need to delete that s3 bucket of reomte backend and dynamoDb table manually
+- becuase that 2 resources we created Manually
