@@ -228,7 +228,7 @@ If you'd like to replicate this project [DevOps Accelerator] on your own AWS acc
 ```bash
 mkdir my-devops-project && cd my-devops-project
 git init
-git clone https://github.com/sonam-niit/Capstone-Sept-Batch-2025.git .
+git clone https://github.com/sonam-niit/Devops-Capstone-Oct-2025.git .
 ```
 
 ---
